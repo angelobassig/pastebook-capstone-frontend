@@ -77,7 +77,9 @@ export class UserService {
 
   // get users for searching
   getUsers(searchText: string): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl + `/search/${searchText}`);
+    return this.http.get<User[]>(this.baseUrl + `/search/${searchText}` , {
+      headers: this.httpHeaders,
+    });
   }
 
   private handleError(error: HttpErrorResponse) {
