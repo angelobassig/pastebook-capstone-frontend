@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="card">
+      <!-- <img src="..." class="card-img-top" alt="..." /> -->
+      
+        <div class="card-body">
+            <h5 class="card-title">
+                {{ notification.user }} {{ notification.action }}
+              </h5>
+        
+              <p class="card-text">{{ notification.datetimeCreated }}</p>
+        
+              <a
+                routerLink="../posts/{{ notification.post_id }}"
+                class="stretched-link"
+              ></a>
+
+        </div>
+    </div>  
+  </div>
+  
+  

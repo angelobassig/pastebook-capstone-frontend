@@ -1,119 +1,135 @@
 <div *ngIf="isOwner()">
-    <div>
-        <div class="row">
-            <div class="col12 col-md-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <form class="form-group" (ngSubmit)="onCreateAlbum(albumToCreate, currentlyLoggedId)">
-    
-                            <input type="text" class="form-control" placeholder="new album name" name="albumToCreate" [(ngModel)]="albumToCreate">
-                            
-                            <button class="button-create" (click)="createPrompt()" type="submit">Create Album</button>
-
-                        </form>
-
-                        <div *ngIf="createBoolean">
-                           <span>Album created successfully!</span>
-                        </div>
-
-                        <button class="button-edit" type="submit" (click)="toggleEdit()">Edit Album</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div *ngIf="albums.length == 0; else hasAlbums">
+        <p style="font-size:30px;">User has no albums</p>
     </div>
 
-    <br> <!-- for line space -->
-
     <div>
-        <div class="row">
-            <div class="col12 col-md-4" *ngFor="let album of albums">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <!-- this whole div is equivalent to 1 card (which represents an album) -->
-                        <div>
-    
-                            <form ngNoForm [action]="url2" method="GET">
-                            
-                                <!-- need this to be hidden from view -->
-                                <input type="number" name="albumId" [(ngModel)]="album.id" hidden>
-                        
-                                <!-- <button>{{ album.albumName }}</button> -->
-                                <button class="album" type="submit">{{ album.albumName }}</button>
-                            </form>
-    
-                            <br>
-    
-                            <!-- Editing the album codes -->
-                            <div *ngIf="editBoolean; else noneToDisplay">
-                                <form ngNoForm [action]="url1" method="POST" enctype="multipart/form-data">
-    
-                                    <!-- <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="inputGroupFile01" name="image" accept="image/png, image/jpeg" >
-                                        <label class="custom-file-label" for="inputGroupFile01">Choose File</label>
-                                    </div> -->
-
-                                <input id="file" type="file" name="image" accept="image/png, image/jpeg">
-    
-                                <!-- need this to be hidden from view -->
-                                <input type="number" name="albumId" [(ngModel)]="album.id" hidden>
-                            
-                                <input class="btn btn-primary" type="submit" value="Upload Photo" id="submit">
-                            
-                                </form>
-        
-                                <br>
-        
-                                <!-- Rename Album button (function where you pass the albumId)-->
-                                <form class="form-group" (ngSubmit)="onSubmit(album)">
-        
-                                    <input type="text" class="form-control" placeholder="new album name" name="albumName" [(ngModel)]="album.albumName">
+        <ng-template #hasAlbums>
+            <div>
+                <div class="row">
+                    <div class="col12 col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <form class="form-group" (ngSubmit)="onCreateAlbum(albumToCreate, currentlyLoggedId)">
+            
+                                    <input type="text" class="form-control" placeholder="new album name" name="albumToCreate" [(ngModel)]="albumToCreate">
                                     
-                                    <button class="btn btn-primary" type="submit">Rename Album</button>
+                                    <button class="button-create" (click)="createPrompt()" type="submit">Create Album</button>
+    
                                 </form>
-                                
-                                <br>
-                                <br>
-        
-                                <!-- Delete Album button (function where you pass the albumId) -->
-                                <app-button text="Delete Album" (click)="removeAlbumFromAlbumList(album)" (btnClick)="deleteAlbum(album.id)"></app-button>
-                            </div>
-                           
-                            <div>
-                                <ng-template #noneToDisplay></ng-template>
+    
+                                <div *ngIf="createBoolean">
+                                <span>Album created successfully!</span>
+                                </div>
+    
+                                <button class="button-edit" type="submit" (click)="toggleEdit()">Edit Album</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+    
+            <br> <!-- for line space -->
+    
+            <div>
+                <div class="row">
+                    <div class="col12 col-md-4" *ngFor="let album of albums">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <!-- this whole div is equivalent to 1 card (which represents an album) -->
+                                <div>
+            
+                                    <form ngNoForm [action]="url2" method="GET">
+                                    
+                                        <!-- need this to be hidden from view -->
+                                        <input type="number" name="albumId" [(ngModel)]="album.id" hidden>
+                                
+                                        <!-- <button>{{ album.albumName }}</button> -->
+                                        <button class="album" type="submit">{{ album.albumName }}</button>
+                                    </form>
+            
+                                    <br>
+            
+                                    <!-- Editing the album codes -->
+                                    <div *ngIf="editBoolean; else noneToDisplay">
+                                        <form ngNoForm [action]="url1" method="POST" enctype="multipart/form-data">
+            
+                                            <!-- <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="inputGroupFile01" name="image" accept="image/png, image/jpeg" >
+                                                <label class="custom-file-label" for="inputGroupFile01">Choose File</label>
+                                            </div> -->
+    
+                                        <input id="file" type="file" name="image" accept="image/png, image/jpeg">
+            
+                                        <!-- need this to be hidden from view -->
+                                        <input type="number" name="albumId" [(ngModel)]="album.id" hidden>
+                                    
+                                        <input class="btn btn-primary" type="submit" value="Upload Photo" id="submit">
+                                    
+                                        </form>
+                
+                                        <br>
+                
+                                        <!-- Rename Album button (function where you pass the albumId)-->
+                                        <form class="form-group" (ngSubmit)="onSubmit(album)">
+                
+                                            <input type="text" class="form-control" placeholder="new album name" name="albumName" [(ngModel)]="album.albumName">
+                                            
+                                            <button class="btn btn-primary" type="submit">Rename Album</button>
+                                        </form>
+                                        
+                                        <br>
+                                        <br>
+                
+                                        <!-- Delete Album button (function where you pass the albumId) -->
+                                        <app-button text="Delete Album" (click)="removeAlbumFromAlbumList(album)" (btnClick)="deleteAlbum(album.id)"></app-button>
+                                    </div>
+                                
+                                    <div>
+                                        <ng-template #noneToDisplay></ng-template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
     </div>
 </div>
 
 <div *ngIf="!isOwner()">
-        <div>
-            <div class="row">
-                <div class="col12 col-md-4" *ngFor="let album of albums">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <!-- this whole div is equivalent to 1 card (which represents an album) -->
-                            <div>
-        
-                                <form ngNoForm [action]="url2" method="GET">
+    <div *ngIf="albums.length == 0; else hasAlbums2">
+        <p style="font-size:30px;">User has no albums</p>
+    </div>
+    
+    <div>
+        <ng-template #hasAlbums2>
+            <div>
+                <div class="row">
+                    <div class="col12 col-md-4" *ngFor="let album of albums">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <!-- this whole div is equivalent to 1 card (which represents an album) -->
+                                <div>
+            
+                                    <form ngNoForm [action]="url2" method="GET">
+                                    
+                                        <!-- need this to be hidden from view -->
+                                        <input type="number" name="albumId" [(ngModel)]="album.id" hidden>
                                 
-                                    <!-- need this to be hidden from view -->
-                                    <input type="number" name="albumId" [(ngModel)]="album.id" hidden>
-                            
-                                    <!-- <button>{{ album.albumName }}</button> -->
-                                    <button type="button" class="btn btn-primary" type="submit">{{ album.albumName }}</button>
-                                </form>
-        
+                                        <!-- <button>{{ album.albumName }}</button> -->
+                                        <button type="button" class="btn btn-primary" type="submit">{{ album.albumName }}</button>
+                                    </form>
+            
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>        
+            </div>        
+        </ng-template>
+    </div>
 </div>
 
 

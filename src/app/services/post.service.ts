@@ -24,17 +24,8 @@ export class PostService {
   ) {}
 
   // POST /api/posts
-  createPost(formData: any): Observable<any> {
-    const fd = new FormData();
-
-    if (formData.content) {
-      fd.append('content', formData.content);
-    }
-
-    if (formData.image) {
-      fd.append('image', formData.image);
-    }
-    return this.http.post<any>(`${this.baseUrl}`, fd, {
+  createPost(formData: FormData): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}`, formData, {
       headers: this.httpHeaders,
     });
   }
@@ -46,9 +37,13 @@ export class PostService {
     });
   }
 
-  getPostsPagination(page: number, size: number = 10): Observable<any> {
+  getPostsPagination(
+    userId: string,
+    page: number,
+    size: number = 10
+  ): Observable<any> {
     return this.http.get(
-      `${this.baseUrl}/pagination?page=${page}&size=${size}`,
+      `${this.baseUrl}/friends/${userId}?page=${page}&size=${size}`,
       {
         headers: this.httpHeaders,
       }

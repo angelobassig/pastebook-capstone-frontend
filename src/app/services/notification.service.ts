@@ -28,6 +28,12 @@ export class NotificationService {
   //   });
   // }
 
+  seenNotificationShort(notifications:NotificationModel[]):Observable<any>{
+    return this.http.post<any>(`${this.baseUrl}/seen`, notifications, {
+      headers: this.httpHeaders,
+    });
+  }
+
   getNotificationShort(): Observable<NotificationModel[]> {
     //console.log(this.sessionService.getToken());
     
@@ -37,11 +43,20 @@ export class NotificationService {
   }
 
   
+  
     //For Notification page 
-  getAllNotification(formData: FormData): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/all`, formData, {
-      headers: this.httpHeaders,
-    });
-  }
+    getAllNotification(): Observable<NotificationModel[]> {
+      //console.log(this.sessionService.getToken());
+      
+      return this.http.get<NotificationModel[]>(this.baseUrl + "/all",{
+        headers: this.httpHeaders
+      });
+    }
+  
+  // getAllNotification(formData: FormData): Observable<any> {
+  //   return this.http.post<any>(`${this.baseUrl}/all`, formData, {
+  //     headers: this.httpHeaders,
+  //   });
+  // }
   
 }

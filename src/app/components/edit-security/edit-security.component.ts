@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { SessionService } from 'src/app/services/session.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -9,11 +15,15 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./edit-security.component.css'],
 })
 export class EditSecurityComponent {
-  securityForm: FormGroup;
+  emailChangeForm: FormGroup;
+  passwordChangeForm: FormGroup;
 
   id: string;
   isLoading: boolean = false;
   success: boolean = false;
+
+  isEmailEdit: boolean = false;
+  isPasswordEdit: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,52 +32,70 @@ export class EditSecurityComponent {
   ) {}
 
   ngOnInit(): void {
-    this.securityForm = this.formBuilder.group({
-      email: ['', Validators.required],
-      mobileNumber: '',
+    this.emailChangeForm = this.formBuilder.group({
+      currentEmail: ['', [Validators.required, Validators.email]],
+      newEmail: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
 
-    this.id = this.sessionService.getUserId();
+    this.passwordChangeForm = this.formBuilder.group({
+      currentPassword: ['', Validators.required],
+      newPassword: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', Validators.required],
+    });
 
-    this.getUserDetails();
+    this.id = this.sessionService.getUserId();
+    this.fetchCurrentEmail();
   }
 
-  getUserDetails() {
-    this.userService.getUserById(this.id).subscribe((response) => {
-      this.securityForm.patchValue({
-        email: response['email'],
-        password: response['password'],
-        mobileNumber: response['mobileNumber'],
-      });
+  fetchCurrentEmail() {
+    this.userService.getUserById(this.id).subscribe((res) => {
+      this.emailChangeForm.get('currentEmail').patchValue(res['email']);
     });
   }
 
-  onSubmit() {
+  onEmailSubmit() {
     this.isLoading = true;
-    if (this.securityForm.valid) {
+    if (this.emailChangeForm.valid) {
       this.userService
-        .updateSecurityInfo(this.id, this.securityForm.value)
+        .updateSecurityEmail(this.id, this.emailChangeForm.value)
         .subscribe({
-          next: this.onSuccess.bind(this),
-          error: this.onFail.bind(this),
+          next: this.onEmailSuccess.bind(this),
+          error: this.onEmailFail.bind(this),
         });
     }
   }
 
-  onSuccess(response: any) {
-    console.log(response);
+  onEmailSuccess(response: any) {
     this.isLoading = false;
+    this.sessionService.setId(response['id']);
     this.sessionService.setEmail(response['email']);
     this.sessionService.setToken(response['token']);
-    this.sessionService.setName(response['name']);
-    this.sessionService.setUserId(response['id']);
-    this.sessionService.setIdNumber(response['idNumber']);
-    this.sessionService.setProfileUrl(response['profileUrl']);
-    this.getUserDetails();
   }
 
-  onFail(response: any) {
+  onEmailFail(response: any) {
+    this.isLoading = false;
+    console.log(response);
+  }
+
+  onPasswordSubmit() {
+    this.isLoading = true;
+    if (this.passwordChangeForm.valid) {
+      this.userService
+        .updateSecurityPassword(this.id, this.passwordChangeForm.value)
+        .subscribe({
+          next: this.onPasswordSuccess.bind(this),
+          error: this.onPasswordFail.bind(this),
+        });
+    }
+  }
+
+  onPasswordSuccess(response: any) {
+    this.isLoading = false;
+    console.log(response);
+  }
+
+  onPasswordFail(response: any) {
     this.isLoading = false;
     console.log(response);
   }
@@ -75,23 +103,20 @@ export class EditSecurityComponent {
   closeBtn() {
     this.success = false;
   }
+
+  toggleEmail() {
+    this.isEmailEdit = !this.isEmailEdit;
+  }
+
+  togglePassword() {
+    this.isPasswordEdit = !this.isPasswordEdit;
+  }
+
+  private passwordMatchValidator(
+    control: AbstractControl
+  ): ValidationErrors | null {
+    const newPassword = control.get('newPassword').value;
+    const currentPassword = control.get('confirmPassword').value;
+    return newPassword === currentPassword ? null : { mismatch: true };
+  }
 }
-
-// MustMatch(controlName: string, matchingControlName: string) {
-//   return (formGroup: FormGroup) => {
-//     const control = formGroup.controls[controlName];
-//     const matchingControl = formGroup.controls[matchingControlName];
-
-//     if (matchingControl.errors && !matchingControl.errors['mustMatch']) {
-//       // return if another validator has already found an error on the matchingControl
-//       return;
-//     }
-
-//     // set error on matchingControl if validation fails
-//     if (control.value !== matchingControl.value) {
-//       matchingControl.setErrors({ mustMatch: true });
-//     } else {
-//       matchingControl.setErrors(null);
-//     }
-//   };
-// }

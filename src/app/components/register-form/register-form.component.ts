@@ -14,6 +14,9 @@ export class RegisterFormComponent implements OnInit {
   submitted = false;
   isLoading = false;
 
+  title: string;
+  message: string;
+
   registerForm = this.formBuilder.group({
     firstName: ['', [Validators.required, this.noWhitespaceValidator]],
     lastName: ['', [Validators.required, this.noWhitespaceValidator]],

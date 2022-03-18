@@ -1,0 +1,35 @@
+.container {
+    float: none;
+    justify-content: center;
+    width: 35%;
+}
+
+.card {
+    margin: 1rem;
+}
+
+.text-container {
+    display: table;
+}
+
+.align-text {
+    display: table-cell; 
+    vertical-align: middle;
+}
+
+.green-dot {
+    height: 15px;
+    width: 15px;
+    background-color: rgb(21, 139, 47);
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .red-dot {
+    height: 15px;
+    width: 15px;
+    background-color: rgb(228, 35, 35);
+    border-radius: 50%;
+    display: inline-block;
+  }
+

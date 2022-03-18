@@ -27,6 +27,8 @@ export class EditProfileComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       birthday: ['', Validators.required],
+      gender: '',
+      mobileNumber: '',
     });
 
     this.id = this.sessionService.getUserId();
@@ -40,6 +42,8 @@ export class EditProfileComponent implements OnInit {
         firstName: user.firstName,
         lastName: user.lastName,
         birthday: user.birthday,
+        gender: user.gender,
+        mobileNumber: user.mobileNumber,
       });
     });
   }

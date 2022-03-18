@@ -23,3 +23,7 @@
 .profile-link > p {
   color: #000;
 }
+
+.notification {
+  width: max-content;
+}

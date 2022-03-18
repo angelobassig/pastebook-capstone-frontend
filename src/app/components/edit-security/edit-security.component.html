@@ -1,4 +1,4 @@
-<div class="card p-4">
+<!-- <div class="card p-4">
   <h3 class="text-center mb-4">Edit Security Information</h3>
   <div class="card-body">
     <form
@@ -56,6 +56,109 @@
           style="position: absolute; right: 0; top: 0"
         ></button>
       </div>
+    </form>
+  </div>
+</div> -->
+
+<div class="card p-4">
+  <div class="card-body">
+    <h3>Edit Security Info</h3>
+
+    <div class="hstack justify-content-between">
+      <div>Change Email</div>
+      <button class="btn btn-primary" (click)="toggleEmail()">
+        {{ isEmailEdit ? "Close" : "Edit" }}
+      </button>
+    </div>
+    <hr class="m-0" />
+    <form
+      *ngIf="isEmailEdit"
+      [formGroup]="emailChangeForm"
+      (ngSubmit)="onEmailSubmit()"
+    >
+      <div class="form-group">
+        <label for="currentEmail" class="form-label">Current</label
+        ><input
+          type="currentEmail"
+          class="form-control"
+          formControlName="currentEmail"
+          placeholder="Enter current email"
+        />
+      </div>
+      <div class="form-group">
+        <label for="newEmail" class="form-label">New</label
+        ><input
+          type="newEmail"
+          class="form-control"
+          formControlName="newEmail"
+          placeholder="Enter new email"
+        />
+      </div>
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label
+        ><input
+          type="password"
+          class="form-control"
+          placeholder="Enter current password"
+          formControlName="password"
+          autocomplete="new-password"
+        />
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="emailChangeForm.invalid || isLoading"
+      >
+        Save
+      </button>
+    </form>
+
+    <div class="hstack justify-content-between">
+      <div>Change Password</div>
+      <button class="btn btn-primary" (click)="togglePassword()">
+        {{ isPasswordEdit ? "Close" : "Edit" }}
+      </button>
+    </div>
+    <hr class="m-0" />
+    <form
+      *ngIf="isPasswordEdit"
+      [formGroup]="passwordChangeForm"
+      (ngSubmit)="onPasswordSubmit()"
+    >
+      <div class="form-group">
+        <label for="current-password" class="form-label">Current</label
+        ><input
+          id="current-password"
+          type="password"
+          class="form-control"
+          formControlName="currentPassword"
+          autocomplete="new-password"
+          placeholder="Enter current password"
+        />
+      </div>
+      <div class="form-group">
+        <label for="new-password" class="form-label">New</label
+        ><input
+          id="new-password"
+          type="password"
+          class="form-control"
+          formControlName="newPassword"
+          autoComplete="new-password"
+          placeholder="Enter new password"
+        />
+      </div>
+      <div class="form-group">
+        <label for="confirm-password" class="form-label">Re-Type Password</label
+        ><input
+          id="confirm-password"
+          type="password"
+          class="form-control"
+          formControlName="confirmPassword"
+          autocomplete="new-password"
+          placeholder="Re-type new password"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
     </form>
   </div>
 </div>

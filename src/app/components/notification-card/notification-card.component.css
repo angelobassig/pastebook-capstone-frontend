@@ -1,0 +1,20 @@
+.container {
+    padding: 5px;
+}
+
+.card-title {
+    margin: 0;
+    color: #0C6CFC;
+}
+
+.card-text {
+    font-size: small;
+    color: grey;
+    margin: 0;
+
+}
+
+.card-body {
+    margin:0;
+    background-color: #fcfcfc;
+}

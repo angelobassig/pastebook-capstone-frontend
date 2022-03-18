@@ -1,46 +1,67 @@
-<div class="container">
-  <app-create-post
-    class="d-flex justify-content-center"
-    (refresh)="onRefresh()"
-  ></app-create-post>
-  <ng-container *ngIf="!rerender">
-    <div class="d-grid gap-5" *ngIf="posts">
-      <div *ngFor="let post of posts; let i = index">
-        <app-post
-          *ngIf="i + 1 === posts.length"
-          #theLastList
-          class="d-flex justify-content-center"
-          [post]="post"
-          (delete)="onDelete($event)"
-        ></app-post>
-        <app-post
-          *ngIf="i + 1 !== posts.length"
-          class="d-flex justify-content-center"
-          [post]="post"
-          (delete)="onDelete($event)"
-        ></app-post>
+<div
+  class="container-fluid d-flex justify-content-between g-0"
+  style="position: relative; left: 0"
+>
+  <div class="col-xl-2 h-100" style="position: fixed; left: 0">
+    <div class="card h-100" style="border: none"></div>
+  </div>
+  <div class="col-md-10 col-xl-4 mt-5 mx-auto">
+    <app-create-post (refresh)="onRefresh()"></app-create-post>
+    <ng-container *ngIf="!rerender">
+      <div *ngIf="posts" class="d-grid gap-5 mt-5">
+        <div *ngFor="let post of posts; let i = index">
+          <app-post
+            *ngIf="i + 1 === posts.length"
+            #theLastList
+            [post]="post"
+            (delete)="onDelete($event)"
+          ></app-post>
+          <app-post
+            *ngIf="i + 1 !== posts.length"
+            [post]="post"
+            (delete)="onDelete($event)"
+          ></app-post>
+        </div>
       </div>
-    </div>
-    
-    <div *ngIf="showSpinner" class="hstack gap-2 justify-content-center mt-3">
-      <div *ngFor="let item of [].constructor(3)">
-        <div
-          class="spinner-grow text-muted"
-          role="status"
-          style="width: 10px; height: 10px"
-        >
-          <span class="visually-hidden">Loading...</span>
+      <div *ngIf="showSpinner" class="hstack gap-2 justify-content-center mt-3">
+        <div *ngFor="let item of [].constructor(3)">
+          <div
+            class="spinner-grow text-muted"
+            role="status"
+            style="width: 10px; height: 10px"
+          >
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="col-xl-2 h-100" style="position: fixed; right: 0">
+    <div class="card h-100 p-4" style="border: none">
+      <div>
+        <div class="d-flex justify-content-between">
+          <p class="fw-bold">Friend Request</p>
+          <a href="#">see all</a>
+        </div>
+        <div></div>
+      </div>
+      <div>
+        <p class="fw-bold">Contacts</p>
+        <div class="d-grid gap-3">
+          <div *ngFor="let friend of friendsList" class="d-flex gap-3">
+            <a [routerLink]="'/' + friend.profileUrl">
+              <app-avatar></app-avatar>
+            </a>
+            <div>
+              <p class="mb-0 fw-bolder">
+                {{ friend.lastName + " " + friend.lastName }}
+              </p>
+              <span>{{ friend.online }}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </ng-container>
-  <!-- March 14, 2pm codes -->
-  <!-- For testing the friend system (TO BE DELETED LATER) -->
-  <!-- <div>
-    <a routerLink="/testing">All Users</a>
-  </div> -->
-  <!-- March 14, 2pm codes -->
-
-  <!-- <app-search-users></app-search-users> -->
-  
+  </div>
 </div>

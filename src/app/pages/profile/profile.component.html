@@ -1,107 +1,124 @@
-
 <div class="container">
   <div class="row profile">
     <div class="col-md-3">
-      <div class="profile-sidebar">
-        <!-- SIDEBAR USERPIC -->
-        <div class="profile-userpic">
-          <img src="" class="img-responsive" alt="" />
-        </div>
-        <!-- END SIDEBAR USERPIC -->
-        <!-- SIDEBAR USER TITLE -->
-        <div class="profile-usertitle">
-          <div class="profile-usertitle-name">
-            {{ user.firstName + " " + user.lastName }}
+      <ng-container *ngIf="user != null">
+        <div class="profile-sidebar">
+          <!-- SIDEBAR USERPIC -->
+          <div class="profile-userpic">
+            <img src="" class="img-responsive" alt="" />
           </div>
-        </div>
-        <!-- END SIDEBAR USER TITLE -->
-        <!-- SIDEBAR BUTTONS -->
-        <!-- INSERT CONDITIONS HERE THAT IF USER IS THE CURRENTLY LOGGED IN USER, HE CAN'T SEE THE BUTTONS -->
-        <div class="profile-userbuttons" *ngIf="!isOwner()">
+          <!-- END SIDEBAR USERPIC -->
+          <!-- SIDEBAR USER TITLE -->
+          <div class="profile-usertitle">
+            <div class="profile-usertitle-name">
+              {{ user.firstName + " " + user.lastName }}
+            </div>
+          </div>
+          <!-- END SIDEBAR USER TITLE -->
+          <!-- SIDEBAR BUTTONS -->
+          <!-- INSERT CONDITIONS HERE THAT IF USER IS THE CURRENTLY LOGGED IN USER, HE CAN'T SEE THE BUTTONS -->
+          <div
+            class="d-flex justify-content-center"
+            *ngIf="isOwner(); else friendStatusCheck"
+          >
+            <button type="button" class="btn btn-success btn-sm">
+              Change profile picture
+            </button>
+          </div>
 
-          
-          <!-- <button type="button" class="btn btn-success btn-sm">
-            Add Friend
-          </button> -->
+          <ng-template #friendStatusCheck>
+            <div
+              class="d-flex justify-content-center"
+              *ngIf="isFriends; else checkingPendingRequest"
+            >
+              <button
+                type="button"
+                class="btn btn-success btn-sm"
+                (click)="removeFriend()"
+              >
+                Remove Friend
+              </button>
+              <button type="button" class="btn btn-danger btn-sm">Block</button>
+            </div>
+            <ng-template #checkingPendingRequest>
+              <div
+                class="d-flex justify-content-center"
+                *ngIf="requestPending; else getRequestComp"
+              >
+                <button
+                  type="button"
+                  class="btn btn-danger btn-sm"
+                  (click)="declineOrCancelFriendRequest()"
+                >
+                  Cancel Friend Request
+                </button>
+              </div>
+            </ng-template>
+
+            <ng-template #getRequestComp>
+              <div
+                class="d-flex justify-content-center"
+                *ngIf="requestFromTheUserPending; else notFriends"
+              >
+                <button
+                  type="button"
+                  class="btn btn-success btn-sm"
+                  (click)="acceptFriendRequest()"
+                >
+                  Accept
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger btn-sm"
+                  (click)="declineOrCancelFriendRequest()"
+                >
+                  Reject
+                </button>
+              </div>
+            </ng-template>
+            <ng-template #notFriends>
+              <div class="d-flex justify-content-center">
+                <button
+                  type="button"
+                  class="btn btn-success btn-sm"
+                  (click)="sendFriendRequest()"
+                >
+                  Add Friend
+                </button>
+                <button type="button" class="btn btn-danger btn-sm">
+                  Block
+                </button>
+              </div>
+            </ng-template>
+          </ng-template>
 
           <!-- March 14, 2 pm codes -->
-          <div *ngIf="oneFriendRequest.active || oneFriend.active || oneFriend2.active; else sendfriendbtn"> 
-          </div>
 
-          <div>
-              <ng-template #sendfriendbtn>
-                
-                  <div *ngIf="isButtonStatus; else displaypending">
-                      <app-button text="Send Friend Request" (click)="changeName()" (btnClick)="sendFriendRequest()"></app-button>
-                      
-                  </div>
-                  
-                  <!-- the code here is to dynamically see the changes in the 'friend status' -->
-                  
-                  <ng-template #displaypending>
-                      <button class="btn btn-success btn-sm">Pending</button>
-                  </ng-template>
-              
-              </ng-template>
-              <!-- if clicked, change text to "Pending" -->
-          </div>
-
-          <div *ngIf="oneFriendRequest.active; else notpending"> 
-              <app-button text="Pending"></app-button>
-          </div>
-
-          <div>
-              <ng-template #notpending>
-              </ng-template>
-          </div>
-
-          <div *ngIf="oneFriend.active; else notfriend"> 
-              <app-button text="Friends"></app-button>
-          </div>
-
-          <div>
-              <ng-template #notfriend>
-              </ng-template>
-          </div>
-
-          <div *ngIf="oneFriend2.active; else notfriend2"> 
-              <app-button text="Friends"></app-button>
-          </div>
-
-          <div>
-              <ng-template #notfriend2>
-              </ng-template>
-          </div>
-        <!-- March 14, 2 pm codes -->
-      
-          <button type="button" class="btn btn-danger btn-sm">Block</button>
-        </div>
-        <!-- END SIDEBAR BUTTONS -->
-        <!-- SIDEBAR MENU -->
-        <div class="profile-usermenu">
-          <ul class="nav">
-            <li class="active">
-              <a href="#">
-                <i class="glyphicon glyphicon-home"></i>
-                Profile
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <i class="glyphicon glyphicon-user"></i>
-                Account Settings
-              </a>
-            </li>
-            <li>
-
-              <!-- <div *ngIf="isOwner(); else notTheOwner"> -->
+          <!-- END SIDEBAR BUTTONS -->
+          <!-- SIDEBAR MENU -->
+          <div class="profile-usermenu">
+            <ul class="nav">
+              <li class="active">
+                <a href="#">
+                  <i class="glyphicon glyphicon-home"></i>
+                  Profile
+                </a>
+              </li>
+              <li if>
+                <a href="#">
+                  <i class="glyphicon glyphicon-user"></i>
+                  Account Settings
+                </a>
+              </li>
+              <li>
+                <!-- <div *ngIf="isOwner(); else notTheOwner"> -->
                 <a routerLink="/{{ getProfileUrl() }}/albums" target="_blank">
                   <i class="glyphicon glyphicon-ok"></i>
                   Albums
                 </a>
-              <!-- </div> -->
+                <!-- </div> -->
 
-              <!-- <div>
+                <!-- <div>
                 <ng-template #notTheOwner>
                     <div *ngIf="oneFriend.active; else notfriend3"> 
                       <a routerLink="/{{ getProfileUrl() }}/albums" target="_blank">
@@ -129,45 +146,52 @@
       
                 </ng-template>
               </div> -->
-              
-            </li>
-          </ul>
-        </div>
-        <!-- END MENU -->
-
-        <div class="portlet light bordered">
-          <!-- STAT -->
-          <div class="row list-separated profile-stat">
-            <div class="col-md-4 col-sm-4 col-xs-6">
-              <div class="uppercase profile-stat-title">2</div>
-              <div class="uppercase profile-stat-text">Posts</div>
-            </div>
-            <div class="col-md-4 col-sm-4 col-xs-6">
-              <div class="uppercase profile-stat-title">2</div>
-              <div class="uppercase profile-stat-text">Pictures</div>
-            </div>
-            <div class="col-md-4 col-sm-4 col-xs-6">
-              <div class="uppercase profile-stat-title">1</div>
-              <div class="uppercase profile-stat-text">Friends</div>
-            </div>
+              </li>
+            </ul>
           </div>
-          <!-- END STAT -->
-          <div>
-            <h4 class="profile-desc-title">Email</h4>
-            <div>
-              <span class="profile-desc-text"> {{ user.email }}</span>
+          <!-- END MENU -->
+
+          <div class="portlet light bordered">
+            <!-- STAT -->
+            <div class="row list-separated profile-stat">
+              <div class="col-md-4 col-sm-4 col-xs-6">
+                <div class="uppercase profile-stat-title">2</div>
+                <div class="uppercase profile-stat-text">Posts</div>
+              </div>
+              <div class="col-md-4 col-sm-4 col-xs-6">
+                <div class="uppercase profile-stat-title">2</div>
+                <div class="uppercase profile-stat-text">Pictures</div>
+              </div>
+              <div class="col-md-4 col-sm-4 col-xs-6">
+                <div class="uppercase profile-stat-title">1</div>
+                <div class="uppercase profile-stat-text">Friends</div>
+              </div>
             </div>
-            <h4 class="profile-desc-title">Birthday</h4>
+            <!-- END STAT -->
             <div>
-              <span class="profile-desc-text"> {{ user.birthday }}</span>
+              <h4 class="profile-desc-title">Email</h4>
+              <div>
+                <span class="profile-desc-text"> {{ user.email }}</span>
+              </div>
+              <h4 class="profile-desc-title">Birthday</h4>
+              <div>
+                <span class="profile-desc-text"> {{ user.birthday }}</span>
+              </div>
+              <h4 class="profile-desc-title">Gender</h4>
+              <div>
+                <span class="profile-desc-text"> {{ user.gender }}</span>
+              </div>
             </div>
-            <h4 class="profile-desc-title">Gender</h4>
             <div>
+              <h4 class="profile-desc-title">About Me</h4>
+              <span class="profile-desc-text"> {{ user.aboutMe }}</span>
+              <!-- <div class="margin-top-20 profile-desc-link">
               <span class="profile-desc-text"> {{ user.gender }}</span>
             </div>
           </div>
           <div>
             <h4 class="profile-desc-title">About Me</h4>
+            <app-about-me></app-about-me>
             <span class="profile-desc-text"> {{ user.aboutMe }}</span>
             <!-- <div class="margin-top-20 profile-desc-link">
               <i class="fa fa-globe"></i>
@@ -181,12 +205,14 @@
               <i class="fa fa-facebook"></i>
               <a href="https://www.facebook.com/">JasonDavisFL</a>
             </div> -->
+            </div>
           </div>
         </div>
-      </div>
+      </ng-container>
     </div>
     <div class="profile-content col-xl">
       <app-create-post class=""> </app-create-post>
+      <app-post-page></app-post-page>
     </div>
   </div>
 </div>

@@ -1,0 +1,14 @@
+<ul>
+  <!-- List of notifications first new 5 -->
+  <!-- For loop -->
+  <li>
+    <app-notification-page-card
+      *ngFor="let notification of notifications"
+      [notification]="notification"
+    >
+    </app-notification-page-card>
+  </li>
+  <!-- <app-notification-card></app-notification-card></li>
+<li><app-notification-card></app-notification-card></li>
+<li><app-notification-card></app-notification-card></li> -->
+</ul>

@@ -1,0 +1,23 @@
+.container {
+    justify-content: center;
+    width: 40%;
+    padding: 8px;
+}
+.card {
+    margin: 3px;
+}
+
+.card-body {
+    text-align: center;
+    padding: 2px;
+
+}
+
+.card-title {
+    margin: 12px;
+    color: #0C6CFC;
+}
+
+.card-text {
+    
+}

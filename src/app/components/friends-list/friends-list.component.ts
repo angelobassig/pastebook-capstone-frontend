@@ -8,6 +8,7 @@ import { FriendRequestService } from 'src/app/services/friend-request.service';
 import { FriendRequest } from 'src/app/models/friend-request';
 import { Friend } from 'src/app/models/friend';
 import { FriendService } from 'src/app/services/friend.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-friends-list',
@@ -22,47 +23,16 @@ hasToken: boolean = (localStorage.getItem('token') !== null);
 senderId: number = parseInt(localStorage.getItem('idNumber')!);
 // March 14 2pm add-ons
 
-  friends: Record<string, string>[] = [
-    { 
-      // add profile pic
-      'firstName': 'Ana Marie',
-      'lastName': 'Santos',
-      'aboutMe': 'yeyeyeyeyeyyeeye'
-    },
-    {
-      'firstName': 'Magmilagro',
-      'lastName': 'Sana',
-      'aboutMe': 'Bohhhxzzz mapagmahal'
-    },
-    {
-      'firstName': 'Mirasol',
-      'lastName': 'Cruz',
-      'aboutMe': 'Kaantok naman to'
-    },
-    {
-      'firstName': 'Mary Jane',
-      'lastName': 'Cruz',
-      'aboutMe': 'yaw ko na iyaq'
-    },
-    {
-      'firstName': 'Heart',
-      'lastName': 'Evangelista',
-      'aboutMe': 'yes fighting lang kasi'
-    },
-    {
-      'firstName': 'Birch',
-      'lastName': 'Tree',
-      'aboutMe': 'ginagawa mu XD'
-    }
-  ];
-
+// March 18 codes
+image: SafeResourceUrl;
 
   constructor(
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
     private friendRequestService: FriendRequestService,
-    private friendService: FriendService
+    private friendService: FriendService,
+    private sanitizer: DomSanitizer
   ) {
     let profileUrl: string = this.route.snapshot.params['profileUrl'];
     let userId: number = parseInt(profileUrl.replace(/\D/g, ""));
@@ -100,6 +70,5 @@ senderId: number = parseInt(localStorage.getItem('idNumber')!);
     let index = this.friendList.indexOf(card);
     this.friendList.splice(index, 1);
   }
-
 
 }

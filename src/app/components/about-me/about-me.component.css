@@ -1,0 +1,12 @@
+.aboutMe-button {
+    margin: 5px;
+    display: inline-block;
+  }
+
+#aboutMe-input {
+    font-size: small;
+    border-color: rgb(167, 163, 163);
+    border-radius: 5px;
+    margin: 2px;
+
+}

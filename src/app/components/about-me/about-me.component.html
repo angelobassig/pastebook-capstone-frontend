@@ -1,0 +1,23 @@
+<form >
+    <textarea 
+        cols="31" 
+        rows="3"
+        type="text"
+        id="aboutMe-input"
+        [formControl]="addAboutMe" 
+        [(ngModel)]="characters"
+        placeholder="Describe who you are"></textarea>
+
+    <br>
+
+    <small class="text-muted" *ngIf="characters.length <= 2000">{{2000 - characters.length +" remaining characters"}}</small>
+
+    <small class="form-text text-danger" *ngIf="addAboutMe.invalid">Maximum length should be 2000 characters.</small>
+
+    <div align="right">
+        <button type="submit" class="btn btn-primary btn-sm aboutMe-button" value="Submit" [disabled]="addAboutMe.invalid" (onClick)="onSave()">Save</button>
+
+        <button type="reset" class="btn btn-secondary btn-sm aboutMe-button" value="Cancel" (onClick)="onCancel()">Cancel</button>
+    </div>
+
+</form>

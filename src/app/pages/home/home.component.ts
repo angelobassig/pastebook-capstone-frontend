@@ -2,13 +2,14 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  OnDestroy,
   OnInit,
   QueryList,
   ViewChildren,
 } from '@angular/core';
 import { delay, Subscription } from 'rxjs';
+import { friendStatus } from 'src/app/models/friend';
 import { Post } from 'src/app/models/post';
+import { FriendService } from 'src/app/services/friend.service';
 import { PostService } from 'src/app/services/post.service';
 
 @Component({
@@ -28,17 +29,23 @@ export class HomeComponent implements OnInit {
   observer: IntersectionObserver;
 
   rerender: boolean = false;
-
   showSpinner: boolean = false;
+
+  id: string = localStorage.getItem('user_id');
+  friendsList: friendStatus[] = [];
 
   constructor(
     private postService: PostService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private friendService: FriendService
   ) {}
 
   ngOnInit(): void {
+    this.id = localStorage.getItem('user_id');
     this.getPosts();
     this.intersectionObserver();
+
+    // this.getFriendStatus(this.id);
   }
 
   ngAfterViewInit() {
@@ -69,12 +76,14 @@ export class HomeComponent implements OnInit {
   getPosts() {
     this.showSpinner = true;
     this.postService
-      .getPostsPagination(this.currentPage)
+      .getPostsPagination(this.id, this.currentPage)
       .pipe(delay(1000))
       .subscribe((res) => {
         this.showSpinner = false;
         this.totalPages = res.totalPages;
-        res.content.forEach((post: Post) => this.posts.push(post));
+        console.log(res);
+
+        res.forEach((post: Post) => this.posts.push(post));
       });
   }
 
@@ -82,8 +91,8 @@ export class HomeComponent implements OnInit {
   fetchPosts() {
     this.currentPage = 0;
     this.postService
-      .getPostsPagination(0)
-      .subscribe((res) => (this.posts = res.content));
+      .getPostsPagination(this.id, 0)
+      .subscribe((res) => (this.posts = res));
   }
 
   onDelete(id: string) {
@@ -93,10 +102,15 @@ export class HomeComponent implements OnInit {
   }
 
   onRefresh() {
-    console.log('refresh');
     this.fetchPosts();
     this.rerender = true;
     this.cdRef.detectChanges();
     this.rerender = false;
+  }
+
+  getFriendStatus(id: string) {
+    this.friendService
+      .getFriendStatus(id)
+      .subscribe((response) => (this.friendsList = response));
   }
 }
