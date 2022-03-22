@@ -7,7 +7,9 @@
         {{ notification.user }} {{ notification.action }}
       </p>
   
-      <p class="card-text">{{ notification.datetimeCreated }}</p>
+
+      <p class="card-text">{{ notification.datetimeCreated | date:'medium'}}</p>
+
   
       <a
         routerLink="../posts/{{ notification.post_id }}"

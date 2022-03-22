@@ -8,13 +8,19 @@
       enctype="multipart/form-data"
     >
       <div class="hstack gap-2 mb-3">
-        <app-avatar></app-avatar>
-        <p>{{ name }}</p>
-        <ng-container *ngIf="displayTaggedLength > 0">
+        <a [routerLink]="profileUrl">
+          <app-avatar></app-avatar>
+        </a>
+        <a
+          id="profile-name"
+          [routerLink]="profileUrl"
+          class="text-decoration-none text-dark"
+        >
+          <p>{{ name }}</p>
+        </a>
+        <ng-container *ngIf="friendId">
           <p>is with</p>
-          <ng-container *ngFor="let tag of displayTagged">
-            <p>{{ tag }}</p>
-          </ng-container>
+          <p>{{ friendName }}</p>
         </ng-container>
       </div>
       <div class="form-group mb-3">

@@ -6,8 +6,9 @@
 }
 
 .tab {
-  color: #000;
+  color: #0a58ca;
   text-decoration: none;
+  font-weight: bold;
   padding: 1.2em 0.5em;
 }
 
@@ -17,7 +18,7 @@
 }
 
 .profile-link:hover {
-  background-color: #ededed;
+  background-color: lightblue;
 }
 
 .profile-link > p {
@@ -27,3 +28,6 @@
 .notification {
   width: max-content;
 }
+
+
+

@@ -1,74 +1,85 @@
-<div class="col-md-auto">
-    <app-avatar src="https://placekitten.com/300/300"></app-avatar>      
-</div>
+<div class="container">
 
-<div class="col-md-4">
-    <h4><a routerLink="/{{ userProfileUrl }}">{{ userFirstName + " " + userLastName }}</a></h4>
-    <!-- <p>{{ "The user id is" + " " + userId }}</p> -->
-</div>
-<!--  -->
-<div class="col-sm">
-    <div class="col-md-auto">
-        <div>
 
-            <!-- if owner, not going to display the 'friend' button -->
-            <div *ngIf="isOwner(); else notOwner"></div>
+    <div class="row">
+
+        <div class="col-sm-2">
+            <app-avatar src="https://placekitten.com/300/300"></app-avatar>   
+        </div>
+
+        <div class="col-sm">
+            <h4><a class="user-name" routerLink="/{{ userProfileUrl }}">{{ userFirstName + " " + userLastName }}</a></h4>
+        </div>
+
+
+        <div class="col-sm button-layout">
+
+            <a class="user-name" routerLink="/{{ userProfileUrl }}"><button type="button" class="btn btn-primary btn-sm">Go to Profile</button></a>
 
             <div>
-                <ng-template #notOwner>
-                    <div *ngIf="oneFriendRequest.active || oneFriend.active || oneFriend2.active; else sendfriendbtn"> 
-                    </div>
-          
-                    <div>
-                        <ng-template #sendfriendbtn>
-                          
-                            <div *ngIf="isButtonStatus; else displaypending">
-                                <app-button text="Send Friend Request" (click)="changeName()" (btnClick)="sendFriendRequest()"></app-button>
-                                
-                            </div>
-                            
-                            <!-- the code here is to dynamically see the changes in the 'friend status' -->
-                            
-                            <ng-template #displaypending>
-                                <button class="btn btn-success btn-sm">Pending</button>
-                            </ng-template>
-                        
-                        </ng-template>
-                        <!-- if clicked, change text to "Pending" -->
-                    </div>
-          
-                    <div *ngIf="oneFriendRequest.active; else notpending"> 
-                        <app-button text="Pending"></app-button>
-                    </div>
-          
-                    <div>
-                        <ng-template #notpending>
-                        </ng-template>
-                    </div>
-          
-                    <div *ngIf="oneFriend.active; else notfriend"> 
-                        <app-button text="Friends"></app-button>
-                    </div>
-          
-                    <div>
-                        <ng-template #notfriend>
-                        </ng-template>
-                    </div>
-          
-                    <div *ngIf="oneFriend2.active; else notfriend2"> 
-                        <app-button text="Friends"></app-button>
-                    </div>
-          
-                    <div>
-                        <ng-template #notfriend2>
-                        </ng-template>
-                    </div>
         
-                </ng-template>
+                <!-- if owner, not going to display the 'friend' button -->
+                <div *ngIf="isOwner(); else notOwner"></div>
+        
+                <div>
+                    <ng-template #notOwner>
+                        <div *ngIf="oneFriendRequest.active || oneFriend.active || oneFriend2.active; else sendfriendbtn"> 
+                        </div>
+                
+                        <div>
+                            <ng-template #sendfriendbtn>
+                                
+                                <div *ngIf="isButtonStatus; else displaypending">
+                                    <app-button text="Send Friend Request" (click)="changeName()" (btnClick)="sendFriendRequest()"></app-button>
+                                    
+                                </div>
+                                
+                                <!-- the code here is to dynamically see the changes in the 'friend status' -->
+                                
+                                <ng-template #displaypending>
+                                    <button class="btn btn-success btn-sm">Pending</button>
+                                </ng-template>
+                            
+                            </ng-template>
+                            <!-- if clicked, change text to "Pending" -->
+                        </div>
+                
+                        <div *ngIf="oneFriendRequest.active; else notpending"> 
+                            <app-button text="Pending"></app-button>
+                        </div>
+                
+                        <div>
+                            <ng-template #notpending>
+                            </ng-template>
+                        </div>
+                
+                        <div *ngIf="oneFriend.active; else notfriend"> 
+                            <app-button text="Friends"></app-button>
+                        </div>
+                
+                        <div>
+                            <ng-template #notfriend>
+                            </ng-template>
+                        </div>
+                
+                        <div *ngIf="oneFriend2.active; else notfriend2"> 
+                            <app-button text="Friends"></app-button>
+                        </div>
+                
+                        <div>
+                            <ng-template #notfriend2>
+                            </ng-template>
+                        </div>
+            
+                    </ng-template>
+                </div>
+        
+                <!-- <a href="#" class="btn btn-primary">Add as Friend</a> -->
             </div>
-
-
-            <!-- <a href="#" class="btn btn-primary">Add as Friend</a> -->
         </div>
     </div>
-</div>
+
+
+    <!-- <p>{{ "This user's id is" + " " + userId }}</p> -->
+</div>    
+

@@ -1,20 +1,29 @@
 <div class="card">
   <div class="card-body">
-    <div class="hstack gap-2" style="position: relative">
-      <a [routerLink]="profileUrl">
+    <div class="hstack gap-2 mb-3" style="position: relative">
+      <a routerLink="{{ profileUrl }}">
         <app-avatar></app-avatar>
       </a>
-      <div>
-        <a
-          id="profileName"
-          [routerLink]="profileUrl"
-          class="text-decoration-none text-black"
-        >
-          <span>{{ post.user.firstName + " " + post.user.lastName }}</span>
-        </a>
-        <p class="text-muted mb-0" style="font-size: 0.875rem">
-          {{ post.datetimeCreated }}
-        </p>
+      <div class="hstack gap-3">
+        <div>
+          <a
+            id="profileName"
+            [routerLink]="profileUrl"
+            class="text-decoration-none text-black"
+          >
+            <span>{{ post.user.firstName + " " + post.user.lastName }}</span>
+          </a>
+          <p class="text-muted mb-0" style="font-size: 0.875rem">
+            {{ parseDate(post.datetimeCreated) }}
+          </p>
+        </div>
+        <div *ngIf="post.tags">
+          <ng-container *ngFor="let tag of post.tags">
+            <p class="text-dark">
+              is with {{ tag.user.firstName + " " + tag.user.lastName }}
+            </p>
+          </ng-container>
+        </div>
       </div>
 
       <!-- Delete Post -->
@@ -57,7 +66,7 @@
     </div>
 
     <!-- Likes amd Comments -->
-    <div class="py-3" style="position: relative">
+    <div class="py-3 mt-3" style="position: relative">
       <button
         type="button"
         id="like-btn"

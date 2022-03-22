@@ -45,7 +45,9 @@ export class HomeComponent implements OnInit {
     this.getPosts();
     this.intersectionObserver();
 
-    // this.getFriendStatus(this.id);
+
+    this.getFriendStatus(this.id);
+
   }
 
   ngAfterViewInit() {
@@ -81,7 +83,7 @@ export class HomeComponent implements OnInit {
       .subscribe((res) => {
         this.showSpinner = false;
         this.totalPages = res.totalPages;
-        console.log(res);
+
 
         res.forEach((post: Post) => this.posts.push(post));
       });

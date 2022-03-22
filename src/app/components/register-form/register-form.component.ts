@@ -18,8 +18,8 @@ export class RegisterFormComponent implements OnInit {
   message: string;
 
   registerForm = this.formBuilder.group({
-    firstName: ['', [Validators.required, this.noWhitespaceValidator]],
-    lastName: ['', [Validators.required, this.noWhitespaceValidator]],
+    firstName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z ]+$/)]],
+    lastName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z ]+$/)]],
     email: ['', [Validators.email, Validators.required]],
     password: [
       '',
@@ -92,6 +92,12 @@ export class RegisterFormComponent implements OnInit {
   private birthdayValidator(control: FormControl) {
     const isValid = Date.parse(control.value) < Date.now();
     return isValid ? null : { birthday: true };
+  }
+
+  private nameValidator(control: FormControl) {
+    const regex = /^[a-zA-Z ]+$/;
+    const isValid = regex.test(control.value);
+    return isValid ? null : { name: true };
   }
 
   get email() {

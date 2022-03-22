@@ -6,6 +6,7 @@ import {
 import { Injectable } from '@angular/core';
 import { catchError, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Image } from '../models/image';
 import { User } from '../models/user';
 
 import { SessionService } from './session.service';
@@ -88,11 +89,15 @@ export class UserService {
 
   // get users for searching
   getUsers(searchText: string): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl + `/search/${searchText}` , {
+
+    return this.http.get<User[]>(this.baseUrl + `/search/${searchText}`, {
       headers: this.httpHeaders,
     });
   }
+  uploadProfilePicture(fd: FormData): Observable<Object>{
+    return this.http.put(this.baseUrl + `/profilePicture` , fd ,{headers: this.httpHeaders});
 
+  }
   private handleError(error: HttpErrorResponse) {
     return error.error;
   }

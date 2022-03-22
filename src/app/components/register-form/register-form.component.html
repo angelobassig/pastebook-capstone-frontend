@@ -23,7 +23,7 @@
           }"
         />
         <span *ngIf="firstName?.errors" class="invalid-feedback">
-          {{ firstName?.errors?.['required'] ? 'This field is required' : 'Invalid data' }}
+          {{ firstName?.errors?.['required'] ? 'This field is required' : 'Should only contain letters' }}
         </span>
       </div>
       <div class="col form-group">

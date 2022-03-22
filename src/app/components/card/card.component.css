@@ -1,4 +1,22 @@
-a {
+
+.user-name {
     text-decoration: none;
-    color: black;
+}
+
+.container {
+    justify-content: center;
+}
+
+.btn {
+    margin-right: .5rem;
+}
+
+.button-layout {
+    display: flex;
+}
+
+.row {
+    align-items: center;
+    justify-content: center;
+
 }

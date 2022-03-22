@@ -2,8 +2,11 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import {
@@ -12,6 +15,8 @@ import {
   FormGroup,
   ValidationErrors,
 } from '@angular/forms';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Image } from 'src/app/models/image';
 import { PostService } from 'src/app/services/post.service';
 import { SessionService } from 'src/app/services/session.service';
 import { Friends } from '../tag-friends/tag-friends.component';
@@ -21,12 +26,18 @@ import { Friends } from '../tag-friends/tag-friends.component';
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.css'],
 })
-export class CreatePostComponent implements OnInit {
+export class CreatePostComponent implements OnInit, OnChanges {
   name: string;
   displayTagged: Friends[] = [];
   displayTaggedLength = 0;
   imagePreview = '';
   isLoading: boolean = false;
+  profileUrl: string;
+  profilePic: SafeResourceUrl;
+
+  @Input() isFriendProfile: boolean;
+  @Input() friendId: string;
+  @Input() friendName: string;
 
   postForm: FormGroup = this.fb.group(
     {
@@ -44,11 +55,21 @@ export class CreatePostComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private postService: PostService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private sanitizer: DomSanitizer
   ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.ngOnInit();
+  }
 
   ngOnInit(): void {
     this.name = this.sessionService.getName();
+    this.profileUrl = `/${this.sessionService.getProfileUrl()}`;
+
+    // this.profilePic = this.sanitizer.bypassSecurityTrustResourceUrl(
+    //   'data:image/png;base64,' +
+    // );
   }
 
   onSubmit() {
@@ -87,8 +108,11 @@ export class CreatePostComponent implements OnInit {
       fd.append('content', this.content.value);
     }
 
-    if (this.tagged.value) {
-      fd.append('tagged', this.tagged.value);
+
+    if (this.isFriendProfile) {
+      console.log('friendId', this.friendId);
+      fd.append('tagged', this.friendId);
+
     }
 
     if (this.image.value) {

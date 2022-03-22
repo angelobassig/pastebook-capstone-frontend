@@ -1,6 +1,30 @@
 <div *ngIf="isOwner()">
     <div *ngIf="albums.length == 0; else hasAlbums">
         <p style="font-size:30px;">User has no albums</p>
+
+        <div>
+            <div class="row">
+                <div class="col12 col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <form class="form-group" (ngSubmit)="onCreateAlbum(albumToCreate, currentlyLoggedId)">
+        
+                                <input type="text" class="form-control" placeholder="new album name" name="albumToCreate" [(ngModel)]="albumToCreate">
+                                
+                                <button class="button-create" (click)="createPrompt()" type="submit">Create Album</button>
+
+                            </form>
+
+                            <div *ngIf="createBoolean">
+                            <span>Album created successfully!</span>
+                            </div>
+
+                            <button class="button-edit" type="submit" (click)="toggleEdit()">Edit Album</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div>

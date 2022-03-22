@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
+import { Image } from 'src/app/models/image';
 import { NotificationModel } from 'src/app/models/notificationModel';
+import { User } from 'src/app/models/user';
 import { NotificationService } from 'src/app/services/notification.service';
 import { SessionService } from 'src/app/services/session.service';
 import { TriggerNotificationsService } from 'src/app/services/trigger-notifications.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -26,15 +30,24 @@ export class NavbarComponent implements OnInit {
   
   id: string;
   ws: WebSocketSubject<any>;
+
+  user:User;
+  image: SafeResourceUrl;
   newNotificationCount: number = 0;
-              
+             
+
                
   notifications: NotificationModel[] = [];
   notification: NotificationModel;
   constructor(private sessionService: SessionService, 
               private router: Router,
               private notificationService: NotificationService,
-              private triggerNotifications: TriggerNotificationsService) {
+
+              private triggerNotifications: TriggerNotificationsService,
+              private userService: UserService,
+              private sanitizer:DomSanitizer,
+              ) {
+
                 this.connect();
                 this.id = localStorage.getItem("user_id");
                 this.imOnline(this.id);
@@ -47,6 +60,25 @@ export class NavbarComponent implements OnInit {
       this.name = this.sessionService.getName();
 
     });
+    
+
+    this.userService
+        .getUserById(this.id)
+        .subscribe((response: any) => {
+          this.user = response;
+          
+          //sconsole.log(this.user.image.picByte)
+          if (this.user.image) {
+            console.log("cleaning")
+            this.image = this.sanitizer.bypassSecurityTrustResourceUrl(
+              'data:image/png;base64,' + this.user.image.picByte
+            );
+            
+            //console.log(this.image);
+          }
+      
+        });
+
     //console.log("reloaded navbar test")
     this.getNotifications();
     console.log(this.user_id);

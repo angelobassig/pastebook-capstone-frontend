@@ -1,0 +1,13 @@
+.search-hero-container {
+    margin: 1rem auto; 
+    width: 40%;
+}
+
+
+.search-result-container{
+    margin: 1rem auto; 
+    float: none; 
+    justify-content: center;
+    width: 50%;
+}
+

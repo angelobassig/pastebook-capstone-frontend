@@ -1,3 +1,5 @@
+import { Image } from "./image";
+
 export interface User {
   id: number;
   firstName: string;
@@ -9,7 +11,7 @@ export interface User {
   mobileNumber: string;
   isOnline: boolean;
   datetimeCreated: string;
-  profilePic: string;
+  image: Image;
   aboutMe: string;
   profileUrl: string;
 }

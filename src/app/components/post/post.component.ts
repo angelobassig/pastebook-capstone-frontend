@@ -26,7 +26,7 @@ export class PostComponent implements OnInit {
 
   image: SafeResourceUrl;
 
-  profileUrl = this.sessionService.getProfileUrl();
+  profileUrl = '/' + this.sessionService.getProfileUrl();
 
   commentForm = this.fb.group({
     comment: ['', Validators.required],
@@ -73,7 +73,16 @@ export class PostComponent implements OnInit {
         //this.triggerNotif.triggerNotif(this.triggerNotif.ws);
         this.getPost();
       });
-    
+  }
+
+  parseDate(formatDate: string) {
+    const [date, time] = formatDate.split(' ');
+    const [year, month, day] = date.split('/');
+    return new Date(`${month}/${day}/${year}`)
+      .toUTCString()
+      .split(' ')
+      .slice(0, 4)
+      .join(' ');
   }
 
   like() {

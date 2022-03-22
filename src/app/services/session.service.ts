@@ -1,5 +1,4 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
-import { UserService } from './user.service';
 
 /**
  * Todo:
@@ -36,7 +35,6 @@ export class SessionService {
     return localStorage.getItem('email')!;
   }
 
-
   // March 14 2 pm add-ons
   getProfileUrl(): string {
     return localStorage.getItem('profileUrl')!;
@@ -47,11 +45,17 @@ export class SessionService {
   }
   // March 14 2 pm add-ons
 
-
   getName(): string {
     return localStorage.getItem('name')!;
   }
 
+  getProfilePic(): string {
+    return localStorage.getItem('profilePic')!;
+  }
+
+  setProfilePic(profilePic: string) {
+    localStorage.setItem('profilePic', profilePic);
+  }
 
   setToken(token: string) {
     this.hasToken.emit(true);
@@ -83,7 +87,6 @@ export class SessionService {
   setName(name: string) {
     localStorage.setItem('name', name);
   }
-
 
   clear() {
     localStorage.clear();

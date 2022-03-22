@@ -1,6 +1,7 @@
 import { Comment } from './comment';
 import { Image } from './image';
 import { Likes } from './likes';
+import { Tag } from './tags';
 import { User } from './user';
 
 export interface Post {
@@ -15,4 +16,5 @@ export interface Post {
   user: User;
   comments: Comment[];
   likes: Likes[];
+  tags: Tag[];
 }
